@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -597,12 +598,32 @@
         let gameStarted = false;
         let timeRemaining = 7200;
         let timerInterval = null;
+        let gameData = {
+            started: false,
+            timeRemaining: 7200,
+            teams: []
+        };
+
+        function initializeGameData() {
+            gameData.teams = teams.map(t => ({
+                id: t.id,
+                number: t.number,
+                members: t.members,
+                leader: t.leader,
+                codeIndex: t.codeIndex,
+                solved: t.solved,
+                attempts: t.attempts
+            }));
+        }
 
         function loadGameState() {
-            const saved = localStorage.getItem('colosseum_game');
+            const saved = localStorage.getItem('colosseum_game_data');
             if (saved) {
-                const state = JSON.parse(saved);
-                state.forEach(teamData => {
+                gameData = JSON.parse(saved);
+                gameStarted = gameData.started;
+                timeRemaining = gameData.timeRemaining;
+
+                gameData.teams.forEach(teamData => {
                     const team = teams.find(t => t.id === teamData.id);
                     if (team) {
                         team.members = teamData.members;
@@ -611,12 +632,50 @@
                         team.attempts = teamData.attempts;
                     }
                 });
+            } else {
+                initializeGameData();
             }
         }
 
         function saveGameState() {
-            localStorage.setItem('colosseum_game', JSON.stringify(teams));
+            gameData.started = gameStarted;
+            gameData.timeRemaining = timeRemaining;
+            gameData.teams = teams.map(t => ({
+                id: t.id,
+                number: t.number,
+                members: t.members,
+                leader: t.leader,
+                codeIndex: t.codeIndex,
+                solved: t.solved,
+                attempts: t.attempts
+            }));
+            localStorage.setItem('colosseum_game_data', JSON.stringify(gameData));
+            // تنبيه جميع النوافذ بالتحديث
+            window.dispatchEvent(new Event('gameStateChanged'));
         }
+
+        // الاستماع للتغييرات من نوافذ أخرى
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'colosseum_game_data') {
+                loadGameState();
+                if (document.getElementById('teamsScreen').classList.contains('active')) {
+                    renderTeams();
+                }
+                if (document.getElementById('codeScreen').classList.contains('active')) {
+                    updateTimerDisplay();
+                }
+            }
+        });
+
+        // الاستماع للتغييرات من نفس النافذة
+        window.addEventListener('gameStateChanged', function() {
+            if (document.getElementById('teamsScreen').classList.contains('active')) {
+                renderTeams();
+            }
+            if (document.getElementById('codeScreen').classList.contains('active')) {
+                updateTimerDisplay();
+            }
+        });
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -693,6 +752,7 @@
                 if (!team.leader) {
                     team.leader = currentUser;
                 }
+                saveGameState();
             }
 
             currentTeam = team;
@@ -710,6 +770,8 @@
                 team.leader = null;
             }
 
+            saveGameState();
+
             if (currentTeam && currentTeam.id === teamId) {
                 currentTeam = null;
                 document.getElementById('startBtn').classList.remove('show');
@@ -726,6 +788,7 @@
 
             if (!gameStarted) {
                 gameStarted = true;
+                saveGameState();
                 startTimer();
             }
 
@@ -734,25 +797,37 @@
             document.getElementById('codeInput').focus();
         }
 
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+            const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            if (document.getElementById('timeDisplay')) {
+                document.getElementById('timeDisplay').textContent = timeStr;
+            }
+            if (document.getElementById('codeTimer')) {
+                document.getElementById('codeTimer').textContent = `⏱️ ${timeStr}`;
+            }
+        }
+
         function startTimer() {
             document.getElementById('timerDisplay').style.display = 'block';
             document.getElementById('codeTimer').style.display = 'block';
 
             timerInterval = setInterval(() => {
                 timeRemaining--;
-
-                const hours = Math.floor(timeRemaining / 3600);
-                const minutes = Math.floor((timeRemaining % 3600) / 60);
-                const seconds = timeRemaining % 60;
-                const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-                document.getElementById('timeDisplay').textContent = timeStr;
-                document.getElementById('codeTimer').textContent = `⏱️ ${timeStr}`;
+                saveGameState();
+                updateTimerDisplay();
 
                 if (timeRemaining === 300) {
                     alert('⚠️ تحذير: 5 دقائق فقط متبقية!');
-                    document.getElementById('timeDisplay').style.color = '#ff6b6b';
-                    document.getElementById('codeTimer').style.color = '#ff6b6b';
+                    if (document.getElementById('timeDisplay')) {
+                        document.getElementById('timeDisplay').style.color = '#ff6b6b';
+                    }
+                    if (document.getElementById('codeTimer')) {
+                        document.getElementById('codeTimer').style.color = '#ff6b6b';
+                    }
                 }
 
                 if (timeRemaining <= 0) {
@@ -779,6 +854,9 @@
                 msg.textContent = '✅ صحيح! تم فتح الملفات';
                 msg.className = 'message success';
                 currentTeam.solved = true;
+                
+                // خصم 15 دقيقة عند النجاح
+                timeRemaining = Math.max(0, timeRemaining - 900);
                 saveGameState();
 
                 setTimeout(() => {
@@ -786,20 +864,11 @@
                 }, 1500);
             } else {
                 currentTeam.attempts++;
-                timeRemaining = Math.max(0, timeRemaining - 900);
-
-                const hours = Math.floor(timeRemaining / 3600);
-                const minutes = Math.floor((timeRemaining % 3600) / 60);
-                const seconds = timeRemaining % 60;
-                const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-                document.getElementById('timeDisplay').textContent = timeStr;
-                document.getElementById('codeTimer').textContent = `⏱️ ${timeStr}`;
-
-                msg.innerHTML = `❌ خطأ! -15 دقيقة من الجميع<br>المحاولات: ${currentTeam.attempts}`;
+                msg.innerHTML = `❌ خطأ! حاول مرة أخرى<br>المحاولات: ${currentTeam.attempts}`;
                 msg.className = 'message error';
                 document.getElementById('codeInput').value = '';
                 document.getElementById('codeInput').focus();
+                saveGameState();
             }
         }
 
@@ -810,7 +879,16 @@
             IMAGES.forEach((imageUrl, index) => {
                 const imageBox = document.createElement('div');
                 imageBox.className = 'image-box';
-                imageBox.innerHTML = `<img src="${imageUrl}" alt="صورة ${index + 1}" onerror="this.alt='خطأ في تحميل الصورة'">`;
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `صورة ${index + 1}`;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.onerror = function() {
+                    this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><rect fill="%23333" width="300" height="400"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-size="20">خطأ في التحميل</text></svg>';
+                };
+                imageBox.appendChild(img);
                 grid.appendChild(imageBox);
             });
 
@@ -861,6 +939,12 @@
                 });
                 gameStarted = false;
                 timeRemaining = 7200;
+                gameData = {
+                    started: false,
+                    timeRemaining: 7200,
+                    teams: []
+                };
+                initializeGameData();
                 alert('✅ تم إعادة تعيين اللعبة');
                 backToLogin();
             }
