@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة رمضان المميزة</title>
+    <title>تحدي الحروف</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,23 +12,19 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f2818 0%, #1a472a 50%, #0f2818 100%);
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(180deg, #0f1e2e 0%, #1a2d3f 50%, #253f57 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 40px;
+            padding: 20px;
             position: relative;
             overflow-x: hidden;
         }
 
+        /* Winter Stars Background */
         body::before {
             content: '';
             position: fixed;
@@ -36,437 +33,88 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
-            animation: backgroundShift 15s ease-in-out infinite;
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 33% 70%, white, transparent),
+                radial-gradient(1px 1px at 15% 80%, white, transparent),
+                radial-gradient(2px 2px at 75% 85%, white, transparent),
+                radial-gradient(1px 1px at 45% 20%, white, transparent),
+                radial-gradient(2px 2px at 25% 60%, white, transparent);
+            background-size: 200% 200%;
+            animation: twinkle 6s ease-in-out infinite;
+            opacity: 0.7;
             z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.5;
+                background-position: 0% 0%;
+            }
+            50% { 
+                opacity: 1;
+                background-position: 100% 100%;
+            }
+        }
+
+        /* Snow Effect */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #fff;
+            font-size: 1.5em;
+            text-shadow: 0 0 5px rgba(74, 144, 226, 0.8);
+            animation: fall linear forwards;
+            z-index: 1000;
             pointer-events: none;
         }
 
-        @keyframes backgroundShift {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
-        .container {
-            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
-            border-radius: 30px;
-            padding: 50px;
-            max-width: 1000px;
-            width: 100%;
-            box-shadow: 
-                0 25px 70px rgba(0, 0, 0, 0.35),
-                0 0 50px rgba(212, 175, 55, 0.25);
-            border: 6px solid #d4af37;
-            position: relative;
-            z-index: 1;
-            overflow: auto;
-            max-height: 95vh;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
+        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 35px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .logo {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, #d4af37 0%, #c9a527 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3em;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35);
-            animation: logoFloat 3s ease-in-out infinite;
-            border: 3px solid #1a472a;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            margin-bottom: 40px;
+            z-index: 1;
+            animation: fadeInDown 1s ease-out;
         }
 
         .header h1 {
-            color: #1a472a;
-            font-size: 2.8em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 5px rgba(212, 175, 55, 0.2);
-            letter-spacing: 1.5px;
-            font-weight: 700;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-
-        .lantern {
-            display: inline-block;
-            font-size: 3em;
-            margin: 0 20px;
-            animation: swing 3s ease-in-out infinite;
-            filter: drop-shadow(0 4px 8px rgba(212, 175, 55, 0.25));
-        }
-
-        @keyframes swing {
-            0%, 100% { transform: rotate(-8deg); }
-            50% { transform: rotate(8deg); }
-        }
-
-        .game-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 35px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .player-info {
-            background: linear-gradient(135deg, #d4af37 0%, #c9a527 100%);
-            padding: 25px;
-            border-radius: 18px;
-            text-align: center;
-            border: 3px solid #1a472a;
-            box-shadow: 
-                0 12px 35px rgba(0, 0, 0, 0.18),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .player-info::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .player-info.active {
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-            transform: scale(1.07);
-            box-shadow: 
-                0 18px 45px rgba(39, 174, 96, 0.35),
-                0 0 35px rgba(39, 174, 96, 0.25);
-            border-color: #fff;
-        }
-
-        .player-name {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
-            letter-spacing: 0.5px;
-        }
-
-        .timer {
-            font-size: 3.2em;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 900;
-            color: white;
-            font-family: 'Courier New', monospace;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.35);
-            letter-spacing: 4px;
-        }
-
-        .timer.warning {
-            animation: pulse 0.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .game-board {
-            background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc4 100%);
-            border: 5px solid #1a472a;
-            border-radius: 22px;
-            padding: 50px;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 2;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            gap: 70px;
-            align-items: center;
-            justify-content: center;
-            min-height: 550px;
-        }
-
-        .center-divider-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, #1a472a 0%, #d4af37 50%, #1a472a 100%);
-            transform: translateX(-50%);
-            z-index: 5;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
-        }
-
-        .game-row {
-            position: relative;
-            width: 100%;
-            max-width: 520px;
+            color: #f4d03f;
+            text-shadow: 
+                0 0 20px rgba(244, 208, 63, 0.5),
+                2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 40px;
-            animation: slideIn 0.6s ease-out;
+            gap: 20px;
         }
 
-        @keyframes slideIn {
+        .header-icon {
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .cell-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cell {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #e8dcc4 0%, #d4c5b0 100%);
-            border: 3px solid #1a472a;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            flex-shrink: 0;
-        }
-
-        .cell::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), transparent);
-            z-index: 1;
-        }
-
-        .cell:hover {
-            transform: scale(1.15);
-            box-shadow: 
-                0 12px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        .cell.selectable {
-            background: linear-gradient(135deg, #fff9e6 0%, #ffe8cc 100%);
-            border: 2px dashed #d4af37;
-            box-shadow: 
-                0 0 25px rgba(212, 175, 55, 0.55),
-                inset 0 0 10px rgba(212, 175, 55, 0.15);
-            animation: glow 0.6s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { 
-                box-shadow: 
-                    0 0 25px rgba(212, 175, 55, 0.55),
-                    inset 0 0 10px rgba(212, 175, 55, 0.15);
-            }
-            50% { 
-                box-shadow: 
-                    0 0 35px rgba(212, 175, 55, 0.75),
-                    inset 0 0 15px rgba(212, 175, 55, 0.25);
-            }
-        }
-
-        .cell.selected {
-            background: linear-gradient(135deg, #d4af37 0%, #c9a527 100%);
-            transform: scale(1.2);
-            box-shadow: 
-                0 0 30px rgba(212, 175, 55, 0.8),
-                0 0 50px rgba(212, 175, 55, 0.4);
-        }
-
-        .line-under-cell {
-            width: 55px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #1a472a, transparent);
-            border-radius: 2px;
-        }
-
-        .piece {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.2em;
-            font-weight: bold;
-            cursor: grab;
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.28),
-                inset -2px -2px 5px rgba(0, 0, 0, 0.2),
-                inset 2px 2px 5px rgba(255, 255, 255, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-        }
-
-        .piece.p1 {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-        }
-
-        .piece.p2 {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-        }
-
-        .piece::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), transparent);
-            z-index: 1;
-        }
-
-        .piece:hover {
-            transform: scale(1.18);
-            box-shadow: 
-                0 12px 30px rgba(0, 0, 0, 0.35),
-                0 0 25px rgba(212, 175, 55, 0.35);
-            cursor: grab;
-        }
-
-        .piece:active {
-            cursor: grabbing;
-        }
-
-        .game-controls {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            margin-top: 25px;
-            position: relative;
-            z-index: 2;
-        }
-
-        button {
-            padding: 16px 45px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-            color: white;
-            border: 2px solid #1a472a;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                0 12px 30px rgba(39, 174, 96, 0.35),
-                0 0 20px rgba(39, 174, 96, 0.25);
-        }
-
-        .btn-primary:active {
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #d4af37 0%, #c9a527 100%);
-            color: #1a472a;
-            border: 2px solid #1a472a;
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                0 12px 30px rgba(212, 175, 55, 0.35),
-                0 0 20px rgba(212, 175, 55, 0.25);
-        }
-
-        .btn-secondary:active {
-            transform: translateY(-2px);
-        }
-
-        .status-message {
-            text-align: center;
-            font-size: 1.25em;
-            font-weight: 700;
-            margin-top: 20px;
-            padding: 16px 30px;
-            border-radius: 13px;
-            color: #1a472a;
-            position: relative;
-            z-index: 2;
-            min-height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -474,462 +122,625 @@
             }
         }
 
-        .status-message.error {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border: 2px solid #1a472a;
-            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        /* Main Container */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+            z-index: 1;
         }
 
-        .status-message.success {
+        /* Team Card */
+        .team {
+            background: rgba(20, 35, 50, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .team.active {
+            transform: scale(1.05);
+        }
+
+        .team1.active {
+            border-color: #f4d03f;
+            box-shadow: 0 0 40px rgba(244, 208, 63, 0.6);
+        }
+
+        .team2.active {
+            border-color: #4A90E2;
+            box-shadow: 0 0 40px rgba(74, 144, 226, 0.6);
+        }
+
+        .team-logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .team1 .team-logo {
+            background: rgba(244, 208, 63, 0.1);
+            border: 3px solid #f4d03f;
+            box-shadow: 
+                0 0 30px rgba(244, 208, 63, 0.5),
+                inset 0 0 20px rgba(244, 208, 63, 0.2);
+        }
+
+        .team2 .team-logo {
+            background: rgba(74, 144, 226, 0.1);
+            border: 3px solid #4A90E2;
+            box-shadow: 
+                0 0 30px rgba(74, 144, 226, 0.5),
+                inset 0 0 20px rgba(74, 144, 226, 0.2);
+        }
+
+        .team-logo img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .team1 .team-logo img {
+            filter: drop-shadow(0 0 10px #f4d03f);
+        }
+
+        .team2 .team-logo img {
+            filter: drop-shadow(0 0 10px #4A90E2);
+        }
+
+        /* Icon SVG for Team 1 */
+        .team-logo svg {
+            width: 60%;
+            height: 60%;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .team1 .team-name {
+            color: #f4d03f;
+            text-shadow: 0 0 15px rgba(244, 208, 63, 0.5);
+        }
+
+        .team2 .team-name {
+            color: #4A90E2;
+            text-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+        }
+
+        .score {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .team-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-select {
             background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
             color: white;
-            border: 2px solid #1a472a;
-            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
         }
 
-        .status-message.info {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        .btn-select:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             color: white;
-            border: 2px solid #1a472a;
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
         }
 
-        .game-over {
-            position: fixed;
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #7f8c8d 0%, #5f6c6d 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(127, 140, 141, 0.4);
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(127, 140, 141, 0.6);
+        }
+
+        /* Board Container */
+        .board-container {
+            background: rgba(30, 45, 60, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.2s ease-out 0.3s backwards;
+        }
+
+        .hex-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            justify-items: center;
+        }
+
+        .hex-container {
+            width: clamp(80px, 9vw, 110px);
+            height: clamp(90px, 10vw, 125px);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hex-container:hover {
+            transform: scale(1.1) rotate(5deg);
+            z-index: 10;
+        }
+
+        .hexagon {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hexagon::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            backdrop-filter: blur(5px);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .game-over.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
+        .hex-container:hover .hexagon::before {
+            opacity: 1;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .hexagon.team1-selected {
+            background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+            border-color: #f4d03f;
+            box-shadow: 0 0 30px rgba(244, 208, 63, 0.6);
+            animation: glowPulse1 2s ease-in-out infinite;
         }
 
-        .game-over-content {
-            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
-            padding: 55px;
-            border-radius: 28px;
-            text-align: center;
-            border: 6px solid #d4af37;
-            max-width: 520px;
-            box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.45),
-                0 0 60px rgba(212, 175, 55, 0.35);
-            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .hexagon.team2-selected {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            border-color: #4A90E2;
+            box-shadow: 0 0 30px rgba(74, 144, 226, 0.6);
+            animation: glowPulse2 2s ease-in-out infinite;
         }
 
-        @keyframes popIn {
-            0% {
-                transform: scale(0.6) translateY(-50px);
+        @keyframes glowPulse1 {
+            0%, 100% { box-shadow: 0 0 20px rgba(244, 208, 63, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(244, 208, 63, 0.8); }
+        }
+
+        @keyframes glowPulse2 {
+            0%, 100% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(74, 144, 226, 0.8); }
+        }
+
+        .hex-letter {
+            font-size: clamp(2rem, 4.5vw, 2.8rem);
+            font-weight: 900;
+            font-family: 'Amiri', serif;
+            color: #2c3e50;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .hexagon.team1-selected .hex-letter,
+        .hexagon.team2-selected .hex-letter {
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Animation for letter appearance */
+        @keyframes letterAppear {
+            from {
                 opacity: 0;
+                transform: scale(0) rotate(180deg);
             }
-            100% {
-                transform: scale(1) translateY(0);
+            to {
                 opacity: 1;
+                transform: scale(1) rotate(0deg);
             }
         }
 
-        .game-over-content h2 {
-            font-size: 2.8em;
-            color: #1a472a;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(212, 175, 55, 0.2);
-            letter-spacing: 1px;
+        .hex-container {
+            animation: letterAppear 0.6s ease-out backwards;
         }
 
-        .game-over-content p {
-            font-size: 1.5em;
-            color: #666;
-            margin-bottom: 25px;
+        .hex-container:nth-child(1) { animation-delay: 0.05s; }
+        .hex-container:nth-child(2) { animation-delay: 0.1s; }
+        .hex-container:nth-child(3) { animation-delay: 0.15s; }
+        .hex-container:nth-child(4) { animation-delay: 0.2s; }
+        .hex-container:nth-child(5) { animation-delay: 0.25s; }
+        .hex-container:nth-child(6) { animation-delay: 0.3s; }
+        .hex-container:nth-child(7) { animation-delay: 0.35s; }
+        .hex-container:nth-child(8) { animation-delay: 0.4s; }
+        .hex-container:nth-child(9) { animation-delay: 0.45s; }
+        .hex-container:nth-child(10) { animation-delay: 0.5s; }
+        .hex-container:nth-child(11) { animation-delay: 0.55s; }
+        .hex-container:nth-child(12) { animation-delay: 0.6s; }
+        .hex-container:nth-child(13) { animation-delay: 0.65s; }
+        .hex-container:nth-child(14) { animation-delay: 0.7s; }
+        .hex-container:nth-child(15) { animation-delay: 0.75s; }
+        .hex-container:nth-child(16) { animation-delay: 0.8s; }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .board-container {
+                order: -1;
+            }
         }
 
-        .winner-name {
-            font-size: 2.2em;
-            font-weight: 700;
-            color: #d4af37;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-            margin: 25px 0;
-            letter-spacing: 0.5px;
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-icon {
+                font-size: 2rem;
+            }
+
+            .team {
+                padding: 20px;
+            }
+
+            .team-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .team-name {
+                font-size: 1.3rem;
+            }
+
+            .score {
+                font-size: 3rem;
+            }
+
+            .board-container {
+                padding: 25px;
+            }
+
+            .hex-board {
+                gap: 8px;
+            }
         }
 
-        .confetti {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1999;
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                gap: 15px;
+            }
+
+            .board-container {
+                padding: 20px;
+            }
+
+            .hex-board {
+                gap: 6px;
+            }
+        }
+
+        /* Notification Style */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -100%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -100%);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">🏮</div>
-            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
-                <div class="lantern">🏮</div>
-                <h1>لعبة رمضان المميزة</h1>
-                <div class="lantern">🏮</div>
-            </div>
-            <p>✨ انقل قطعك الثلاث للفوز! ✨</p>
-        </div>
-
-        <div class="game-info">
-            <div class="player-info" id="player1-info">
-                <div class="player-name">🔴 اللاعب الأول</div>
-                <div class="timer" id="player1-timer">10</div>
-            </div>
-            <div class="player-info" id="player2-info">
-                <div class="player-name">🔵 اللاعب الثاني</div>
-                <div class="timer" id="player2-timer">10</div>
-            </div>
-        </div>
-
-        <div class="game-board" id="game-board">
-            <div class="center-divider-line"></div>
-        </div>
-
-        <div class="game-controls">
-            <button class="btn-primary" onclick="startGame()">🎮 ابدأ اللعبة</button>
-            <button class="btn-secondary" onclick="resetGame()">🔄 إعادة تعيين</button>
-        </div>
-
-        <div class="status-message" id="status-message"></div>
+    <div class="header">
+        <h1>
+            <span class="header-icon">⚔️</span>
+            تحدي الحروف
+            <span class="header-icon">⚔️</span>
+        </h1>
     </div>
 
-    <div class="game-over" id="game-over">
-        <div class="game-over-content">
-            <h2>🎉 انتهت اللعبة! 🎉</h2>
-            <p>تهانينا للفائز</p>
-            <div class="winner-name" id="winner-name"></div>
-            <button class="btn-primary" onclick="resetGame()" style="margin-top: 35px;">العب مرة أخرى</button>
+    <div class="container">
+        <!-- Team 1 -->
+        <div class="team team1" id="team1Card">
+            <div class="team-logo">
+                <img src="logo_gold.png" alt="شعار الفريق البرتقالي" id="team1Logo">
+            </div>
+            <div class="team-name">الفريق البرتقالي</div>
+            <div class="score" id="score1">0</div>
+            <div class="team-controls">
+                <button class="btn btn-select" onclick="selectForTeam(1)">اختيار حرف</button>
+                <button class="btn btn-clear" onclick="clearScore(1)">تصفير النقاط</button>
+            </div>
+        </div>
+
+        <!-- Board -->
+        <div class="board-container">
+            <div class="hex-board" id="hexBoard"></div>
+        </div>
+
+        <!-- Team 2 -->
+        <div class="team team2" id="team2Card">
+            <div class="team-logo">
+                <img src="Untitled_design.png" alt="شعار الفريق الأزرق" id="team2Logo">
+            </div>
+            <div class="team-name">الفريق الأزرق</div>
+            <div class="score" id="score2">0</div>
+            <div class="team-controls">
+                <button class="btn btn-select" onclick="selectForTeam(2)">اختيار حرف</button>
+                <button class="btn btn-reset" onclick="resetBoard()">إعادة ترتيب</button>
+                <button class="btn btn-clear" onclick="clearScore(2)">تصفير النقاط</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let gameState = {
-            board: [
-                ['p1', 'p1', 'p1'],
-                [null, null, null],
-                [null, null, null],
-                ['p2', 'p2', 'p2']
-            ],
-            currentPlayer: 'p1',
-            gameStarted: false,
-            selectedPiece: null,
-            moveCount: 0
-        };
+        const allLetters = [
+            'أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص',
+            'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'ه', 'و', 'ي'
+        ];
 
-        const TIMER_DURATION = 10;
-        let timerInterval = null;
-        let currentTimer = TIMER_DURATION;
+        let currentLetters = [];
+        let usedLetters = [];
+        let scores = { 1: 0, 2: 0 };
+        let selectedTeam = null;
+        let letterStates = {};
 
-        function initializeBoard() {
-            const boardContainer = document.getElementById('game-board');
-            boardContainer.innerHTML = '<div class="center-divider-line"></div>';
+        function initBoard() {
+            const availableLetters = allLetters.filter(letter => !usedLetters.includes(letter));
+            
+            if (availableLetters.length < 16) {
+                usedLetters = [];
+                return initBoard();
+            }
 
-            for (let rowIndex = 0; rowIndex < 4; rowIndex++) {
-                const gameRowDiv = document.createElement('div');
-                gameRowDiv.className = 'game-row';
-                gameRowDiv.style.animationDelay = `${rowIndex * 0.1}s`;
+            currentLetters = [];
+            for (let i = 0; i < 16; i++) {
+                const randomIndex = Math.floor(Math.random() * availableLetters.length);
+                currentLetters.push(availableLetters[randomIndex]);
+                availableLetters.splice(randomIndex, 1);
+            }
 
-                for (let colIndex = 0; colIndex < 3; colIndex++) {
-                    const cellWrapper = document.createElement('div');
-                    cellWrapper.className = 'cell-wrapper';
+            usedLetters.push(...currentLetters);
+            renderBoard();
+        }
 
-                    const cellDiv = document.createElement('div');
-                    cellDiv.className = 'cell';
-                    cellDiv.id = `cell-${rowIndex}-${colIndex}`;
-                    cellDiv.onclick = () => handleCellClick(rowIndex, colIndex);
+        function renderBoard() {
+            const board = document.getElementById('hexBoard');
+            board.innerHTML = '';
 
-                    const piece = gameState.board[rowIndex][colIndex];
-                    if (piece) {
-                        const pieceDiv = document.createElement('div');
-                        pieceDiv.className = `piece ${piece}`;
-                        pieceDiv.textContent = '🍪';
-                        pieceDiv.onclick = (e) => {
-                            e.stopPropagation();
-                            selectPiece(rowIndex, colIndex);
-                        };
-                        cellDiv.appendChild(pieceDiv);
+            currentLetters.forEach((letter, index) => {
+                const hexContainer = document.createElement('div');
+                hexContainer.className = 'hex-container';
+                
+                const hexagon = document.createElement('div');
+                hexagon.className = 'hexagon';
+                
+                if (letterStates[letter]) {
+                    hexagon.classList.add(`team${letterStates[letter]}-selected`);
+                }
+                
+                const hexLetter = document.createElement('div');
+                hexLetter.className = 'hex-letter';
+                hexLetter.textContent = letter;
+                
+                hexagon.appendChild(hexLetter);
+                hexContainer.appendChild(hexagon);
+                
+                hexContainer.addEventListener('click', () => {
+                    if (selectedTeam && !letterStates[letter]) {
+                        selectLetter(letter, selectedTeam);
                     }
-
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'line-under-cell';
-
-                    cellWrapper.appendChild(cellDiv);
-                    cellWrapper.appendChild(lineDiv);
-                    gameRowDiv.appendChild(cellWrapper);
-                }
-
-                boardContainer.appendChild(gameRowDiv);
-            }
-        }
-
-        function selectPiece(row, col) {
-            if (!gameState.gameStarted) {
-                updateStatus('الرجاء بدء اللعبة أولاً!', 'error');
-                return;
-            }
-
-            const piece = gameState.board[row][col];
-            if (piece !== gameState.currentPlayer) {
-                updateStatus('يمكنك فقط اختيار قطعك الخاصة!', 'error');
-                return;
-            }
-
-            gameState.selectedPiece = { row, col };
-            clearSelectableMarkers();
-            highlightSelectableMoves(row, col);
-            updateStatus(`تم اختيار قطعة! اختر الخانة المراد الانتقال إليها`, 'info');
-        }
-
-        function highlightSelectableMoves(row, col) {
-            const directions = [
-                [-1, 0],
-                [1, 0],
-                [0, -1],
-                [0, 1]
-            ];
-
-            for (const [dRow, dCol] of directions) {
-                const newRow = row + dRow;
-                const newCol = col + dCol;
-
-                if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 3 && gameState.board[newRow][newCol] === null) {
-                    const cell = document.getElementById(`cell-${newRow}-${newCol}`);
-                    if (cell) cell.classList.add('selectable');
-                }
-            }
-        }
-
-        function clearSelectableMarkers() {
-            document.querySelectorAll('.cell').forEach(cell => {
-                cell.classList.remove('selectable', 'selected');
+                });
+                
+                board.appendChild(hexContainer);
             });
         }
 
-        function handleCellClick(row, col) {
-            if (!gameState.selectedPiece) {
-                return;
-            }
-
-            const selectedRow = gameState.selectedPiece.row;
-            const selectedCol = gameState.selectedPiece.col;
-
-            const rowDiff = Math.abs(row - selectedRow);
-            const colDiff = Math.abs(col - selectedCol);
-
-            if ((rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1)) {
-                if (gameState.board[row][col] === null) {
-                    gameState.board[row][col] = gameState.board[selectedRow][selectedCol];
-                    gameState.board[selectedRow][selectedCol] = null;
-                    gameState.selectedPiece = null;
-                    gameState.moveCount++;
-
-                    if (checkWin(gameState.currentPlayer)) {
-                        createConfetti();
-                        endGame(gameState.currentPlayer);
-                        return;
-                    }
-
-                    if (!canMove(gameState.currentPlayer)) {
-                        createConfetti();
-                        endGame(gameState.currentPlayer === 'p1' ? 'p2' : 'p1');
-                        return;
-                    }
-
-                    gameState.currentPlayer = gameState.currentPlayer === 'p1' ? 'p2' : 'p1';
-                    clearSelectableMarkers();
-                    initializeBoard();
-                    resetTimer();
-                    updateStatus(`دور ${gameState.currentPlayer === 'p1' ? 'اللاعب الأول 🔴' : 'اللاعب الثاني 🔵'}`, 'info');
-                } else {
-                    updateStatus('هذه الخانة مشغولة!', 'error');
-                }
-            } else {
-                updateStatus('حركة غير صحيحة! تحرك خطوة واحدة فقط', 'error');
-            }
+        function selectForTeam(team) {
+            selectedTeam = team;
+            
+            document.getElementById('team1Card').classList.toggle('active', team === 1);
+            document.getElementById('team2Card').classList.toggle('active', team === 2);
+            
+            const teamName = team === 1 ? 'البرتقالي' : 'الأزرق';
+            showNotification(`تم اختيار الفريق ${teamName} - اضغط على الحرف`);
         }
 
-        function checkWin(player) {
-            if (player === 'p1') {
-                return gameState.board[3][0] === 'p1' && gameState.board[3][1] === 'p1' && gameState.board[3][2] === 'p1';
-            } else {
-                return gameState.board[0][0] === 'p2' && gameState.board[0][1] === 'p2' && gameState.board[0][2] === 'p2';
+        function selectLetter(letter, team) {
+            letterStates[letter] = team;
+            scores[team]++;
+            
+            document.getElementById(`score${team}`).textContent = scores[team];
+            renderBoard();
+            
+            if (team === 2) {
+                createSnowEffect();
+            }
+            
+            selectedTeam = null;
+            document.getElementById('team1Card').classList.remove('active');
+            document.getElementById('team2Card').classList.remove('active');
+        }
+
+        function createSnowEffect() {
+            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '❉'];
+            const numberOfFlakes = 35;
+            
+            for (let i = 0; i < numberOfFlakes; i++) {
+                setTimeout(() => {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                    snowflake.style.left = Math.random() * 100 + '%';
+                    snowflake.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    snowflake.style.fontSize = (Math.random() * 1 + 1) + 'em';
+                    
+                    document.body.appendChild(snowflake);
+                    
+                    setTimeout(() => {
+                        snowflake.remove();
+                    }, 4000);
+                }, i * 80);
             }
         }
 
-        function canMove(player) {
-            for (let row = 0; row < 4; row++) {
-                for (let col = 0; col < 3; col++) {
-                    if (gameState.board[row][col] === player) {
-                        const directions = [
-                            [-1, 0],
-                            [1, 0],
-                            [0, -1],
-                            [0, 1]
-                        ];
-
-                        for (const [dRow, dCol] of directions) {
-                            const newRow = row + dRow;
-                            const newCol = col + dCol;
-                            if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 3 && gameState.board[newRow][newCol] === null) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
+        function resetBoard() {
+            letterStates = {};
+            initBoard();
+            selectedTeam = null;
+            document.getElementById('team1Card').classList.remove('active');
+            document.getElementById('team2Card').classList.remove('active');
+            showNotification('تم إعادة ترتيب الحروف بنجاح');
         }
 
-        function startGame() {
-            gameState.gameStarted = true;
-            gameState.currentPlayer = 'p1';
-            gameState.moveCount = 0;
-            resetTimer();
-            clearSelectableMarkers();
-            updateStatus(`بدء اللعبة! دور اللاعب الأول 🔴`, 'success');
-            updatePlayerInfo();
-            startTimer();
+        function clearScore(team) {
+            scores[team] = 0;
+            document.getElementById(`score${team}`).textContent = '0';
+            showNotification(`تم تصفير نقاط الفريق ${team === 1 ? 'البرتقالي' : 'الأزرق'}`);
         }
 
-        function resetGame() {
-            clearInterval(timerInterval);
-            gameState = {
-                board: [
-                    ['p1', 'p1', 'p1'],
-                    [null, null, null],
-                    [null, null, null],
-                    ['p2', 'p2', 'p2']
-                ],
-                currentPlayer: 'p1',
-                gameStarted: false,
-                selectedPiece: null,
-                moveCount: 0
-            };
-            currentTimer = TIMER_DURATION;
-
-            initializeBoard();
-            clearSelectableMarkers();
-            updateStatus('تم إعادة تعيين اللعبة. اضغط "ابدأ اللعبة" للبدء! 🎮', 'info');
-            updatePlayerInfo();
-            document.getElementById('game-over').classList.remove('show');
-        }
-
-        function resetTimer() {
-            currentTimer = TIMER_DURATION;
-            updateTimerDisplay();
-        }
-
-        function updateTimerDisplay() {
-            const player1Timer = document.getElementById('player1-timer');
-            const player2Timer = document.getElementById('player2-timer');
-
-            player1Timer.textContent = gameState.currentPlayer === 'p1' ? currentTimer : '—';
-            player2Timer.textContent = gameState.currentPlayer === 'p2' ? currentTimer : '—';
-
-            if (currentTimer <= 3 && gameState.gameStarted && gameState.currentPlayer === 'p1') {
-                player1Timer.parentElement.classList.add('warning');
-            } else if (currentTimer <= 3 && gameState.gameStarted && gameState.currentPlayer === 'p2') {
-                player2Timer.parentElement.classList.add('warning');
-            } else {
-                document.querySelectorAll('.timer').forEach(t => t.parentElement.classList.remove('warning'));
-            }
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                currentTimer--;
-                updateTimerDisplay();
-
-                if (currentTimer <= 0) {
-                    clearInterval(timerInterval);
-                    endGame(gameState.currentPlayer === 'p1' ? 'p2' : 'p1');
-                }
-            }, 1000);
-        }
-
-        function endGame(winner) {
-            clearInterval(timerInterval);
-            gameState.gameStarted = false;
-
-            const winnerName = winner === 'p1' ? '🔴 اللاعب الأول' : '🔵 اللاعب الثاني';
-            document.getElementById('winner-name').textContent = winnerName;
-            document.getElementById('game-over').classList.add('show');
-
-            updateStatus(`انتهت اللعبة! الفائز: ${winnerName}`, 'success');
-        }
-
-        function updateStatus(message, type = 'info') {
-            const statusElement = document.getElementById('status-message');
-            statusElement.textContent = message;
-            statusElement.className = `status-message ${type}`;
-        }
-
-        function updatePlayerInfo() {
-            const player1Info = document.getElementById('player1-info');
-            const player2Info = document.getElementById('player2-info');
-
-            if (gameState.gameStarted) {
-                if (gameState.currentPlayer === 'p1') {
-                    player1Info.classList.add('active');
-                    player2Info.classList.remove('active');
-                } else {
-                    player1Info.classList.remove('active');
-                    player2Info.classList.add('active');
-                }
-            } else {
-                player1Info.classList.remove('active');
-                player2Info.classList.remove('active');
-            }
-        }
-
-        function createConfetti() {
-            const colors = ['#d4af37', '#e74c3c', '#3498db', '#27ae60', '#f39c12'];
-            for (let i = 0; i < 30; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.top = '-10px';
-                confetti.style.width = '10px';
-                confetti.style.height = '10px';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.borderRadius = '50%';
-                confetti.style.animation = `fall ${2 + Math.random() * 2}s linear forwards`;
-                document.body.appendChild(confetti);
-
-                setTimeout(() => confetti.remove(), 4000);
-            }
-
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fall {
-                    to {
-                        transform: translateY(100vh) rotate(360deg);
-                        opacity: 0;
-                    }
-                }
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(255, 255, 255, 0.95);
+                color: #2c3e50;
+                padding: 15px 35px;
+                border-radius: 12px;
+                font-weight: 700;
+                font-size: 1.1rem;
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+                z-index: 10000;
+                animation: slideDown 0.4s ease-out;
             `;
-            document.head.appendChild(style);
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideUp 0.4s ease-out';
+                setTimeout(() => notification.remove(), 400);
+            }, 2500);
         }
 
-        initializeBoard();
-        resetTimer();
-        updateStatus('اضغط "ابدأ اللعبة" للبدء! 🎮', 'info');
+        // Initialize on load
+        initBoard();
     </script>
 </body>
 </html>
